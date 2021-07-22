@@ -26,7 +26,7 @@ async function readPDFFile(pdf_data) {
 
         const body = context.document.body;
 
-        const Pages = document.getElementById('Pages').textContent;
+        const Pages = document.getElementById('Pages').value;
 
         let Page = [];
 
@@ -61,7 +61,7 @@ async function readPDFFile(pdf_data) {
 
             for(let i = 0; i < Page.length; i++) {
                 const page = await pdf.getPage(Page[i]);
-                const viewport = page.getViewport({ scale: document.getElementById('Scale').textContent || 1.5 });
+                const viewport = page.getViewport({ scale: document.getElementById('Scale').value || 1.5 });
         
         
                 const canvasContext = canvas.getContext('2d');
@@ -79,7 +79,7 @@ async function readPDFFile(pdf_data) {
             for (let i = 1; i <= page_count; i++) {
 
                 const page = await pdf.getPage(i);
-                const viewport = page.getViewport({ scale: document.getElementById('Scale').textContent || 1.5 });
+                const viewport = page.getViewport({ scale: document.getElementById('Scale').value || 1.5 });
         
         
                 const canvasContext = canvas.getContext('2d');
