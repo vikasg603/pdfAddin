@@ -27,8 +27,6 @@ async function readPDFFile(pdf_data) {
         await page.render({ canvasContext: context, viewport: viewport }).promise
         InsertImages(canvas.toDataURL('image/jpeg'));
     }
-
-    window.Images = Images;
 }
 
 file.onchange = function (e) {
@@ -57,6 +55,8 @@ const InsertImages = (base64Image) => {
     Word.run(function (context) {
 
         const body = context.document.body;
+
+        console.log(body);
 
         body.insertFileFromBase64(base64Image, Word.InsertLocation.End);
 
