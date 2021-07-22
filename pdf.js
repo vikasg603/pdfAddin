@@ -26,22 +26,68 @@ async function readPDFFile(pdf_data) {
 
         const body = context.document.body;
 
-        for (let i = 1; i <= page_count; i++) {
+        const Pages = document.getElementById('Pages').textContent;
 
-            const page = await pdf.getPage(i);
-            const viewport = page.getViewport({ scale: 1.5 });
-    
-    
-            const canvasContext = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-    
-    
-            await page.render({ canvasContext, viewport }).promise;
-            body.insertInlinePictureFromBase64(canvas.toDataURL('image/jpeg').replace(/^data:image\/\w+;base64,/, ""), "End");
-            body.insertBreak("Page", "End");
-            await context.sync();
+        let Page = [];
+        if(Pages) {
+            if(/^\d+-\d+$/.test(Pages)) {
+                let [StartPage, EndPage] = Pages.split("-");
+                StartPage = parseInt(StartPage);
+                EndPage = parseInt(EndPage);
+                if(StartPage < EndPage && EndPage <= page_count) {
+                    for(let i = StartPage; i <= EndPage; i++) {
+                        Page.push(i);
+                    }
+                }
+            } else if(/^\d+(,\d+)+$/.test(Pages)) {
+                const PagesList = Pages.split(",");
+                for(let i = 0; i < PagesList.length; i++) {
+                    Page.push(parseInt(PagesList[i]));
+                }
+            } else {
+                Page.push(parseInt(Pages));
+            }
+            
+            Page = Page.filter(item => item && item <= page_count)
 
+            if(Page.length === 0) {
+                Page.push(1);
+            }
+
+            Page.forEach(function(item) {
+                const page = await pdf.getPage(item);
+                const viewport = page.getViewport({ scale: document.getElementById('Scale').textContent || 1.5 });
+        
+        
+                const canvasContext = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+        
+        
+                await page.render({ canvasContext, viewport }).promise;
+                body.insertInlinePictureFromBase64(canvas.toDataURL('image/jpeg').replace(/^data:image\/\w+;base64,/, ""), "End");
+                body.insertBreak("Page", "End");
+                await context.sync();
+            })
+            
+        } else {
+            for (let i = 1; i <= page_count; i++) {
+
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({ scale: document.getElementById('Scale').textContent || 1.5 });
+        
+        
+                const canvasContext = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+        
+        
+                await page.render({ canvasContext, viewport }).promise;
+                body.insertInlinePictureFromBase64(canvas.toDataURL('image/jpeg').replace(/^data:image\/\w+;base64,/, ""), "End");
+                body.insertBreak("Page", "End");
+                await context.sync();
+    
+            }
         }
 
 
