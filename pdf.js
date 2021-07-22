@@ -20,7 +20,7 @@ async function readPDFFile(pdf_data) {
     const pdf = await pdfjsLib.getDocument({ data: pdf_data }).promise;
 
     const page_count = pdf.numPages;
-    
+
     // Run a batch operation against the Word object model.
     await Word.run(async function (context) {
 
@@ -52,7 +52,7 @@ async function readPDFFile(pdf_data) {
         console.log('Added base64 encoded text to the beginning of the document body.');
 
     }).catch(function (error) {
-        console.log('Error: ' + JSON.stringify(error));
+        console.log(error);
         if (error instanceof OfficeExtension.Error) {
             console.log('Debug info: ' + JSON.stringify(error.debugInfo));
         }
