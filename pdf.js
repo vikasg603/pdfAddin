@@ -42,25 +42,13 @@ file.onchange = function (e) {
     fileReader.readAsArrayBuffer(PDFFile);
 };
 
-Office.onReady((info) => {
-    if (info.host === Office.HostType.Word) {
-        document.getElementById("sideload-msg").style.display = "none";
-        document.getElementById("app-body").style.display = "flex";
-        document.getElementById("run").onclick = getDocumentAsCompressed;
-    }
-});
-
 const InsertImages = (base64Image) => {
     // Run a batch operation against the Word object model.
     Word.run(function (context) {
 
         const body = context.document.body;
 
-        console.log(base64Image);
-
         base64Image = base64Image.replace(/^data:image\/\w+;base64,/, "");
-
-        console.log(base64Image);
 
         body.insertInlinePictureFromBase64(base64Image, "End");
 
