@@ -18,14 +18,15 @@ const InsertImages = (base64Images) => {
 
         const body = context.document.body;
 
-        base64Images.forEach(function (base64Image) {
-            base64Image = base64Image.replace(/^data:image\/\w+;base64,/, "");
+        // Loop through the images and insert them into the document.
+        for (const base64Image of base64Images) {
             body.insertInlinePictureFromBase64(base64Image, "End");
-        });
+            await context.sync();
+        }
 
         // Synchronize the document state by executing the queued commands,
         // and return a promise to indicate task completion.
-        await context.sync();
+        
         delete AppBody.style.display;
         Loader.style.display = "none";
         console.log('Added base64 encoded text to the beginning of the document body.');
@@ -59,7 +60,7 @@ async function readPDFFile(pdf_data) {
 
 
         await page.render({ canvasContext: context, viewport: viewport }).promise
-        Images.push(canvas.toDataURL('image/jpeg'));
+        Images.push(canvas.toDataURL('image/jpeg').replace(/^data:image\/\w+;base64,/, ""));
     }
     InsertImages(Images);
     file.value = "";
