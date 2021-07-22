@@ -53,7 +53,7 @@ UploadButton.onclick = function () {
 
 const InsertImages = (base64Image) => {
     // Run a batch operation against the Word object model.
-    Word.run(function (context) {
+    Word.run(async function (context) {
 
         const body = context.document.body;
 
@@ -63,9 +63,8 @@ const InsertImages = (base64Image) => {
 
         // Synchronize the document state by executing the queued commands,
         // and return a promise to indicate task completion.
-        return context.sync().then(function () {
-            console.log('Added base64 encoded text to the beginning of the document body.');
-        });
+        await context.sync();
+        console.log('Added base64 encoded text to the beginning of the document body.');
     })
         .catch(function (error) {
             console.log('Error: ' + JSON.stringify(error));
