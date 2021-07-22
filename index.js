@@ -56,10 +56,7 @@ const InsertImages = (base64Image) => {
 
         const body = context.document.body;
 
-        console.log(body.insertFileFromBase64);
-        console.log(base64Image);
-
-        body.insertFileFromBase64(base64Image, Word.InsertLocation.End);
+        body.insertInlinePictureFromBase64(base64Image, "After");
 
         // Synchronize the document state by executing the queued commands,
         // and return a promise to indicate task completion.
