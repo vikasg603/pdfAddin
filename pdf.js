@@ -32,12 +32,12 @@ async function readPDFFile(pdf_data) {
             const viewport = page.getViewport({ scale: 1.5 });
     
     
-            const context = canvas.getContext('2d');
+            const canvasContext = canvas.getContext('2d');
             canvas.height = viewport.height;
             canvas.width = viewport.width;
     
     
-            await page.render({ canvasContext: context, viewport: viewport }).promise;
+            await page.render({ canvasContext, viewport }).promise;
             body.insertInlinePictureFromBase64(canvas.toDataURL('image/jpeg').replace(/^data:image\/\w+;base64,/, ""), "Emd");
             body.insertBreak("Page", "End");
             await context.sync();
@@ -49,7 +49,7 @@ async function readPDFFile(pdf_data) {
         Loader.style.display = "none";
 
 
-        console.log('Added base64 encoded text to the beginning of the document body.');
+        console.log('Added base64 encoded text to the end of the document body.');
 
     }).catch(function (error) {
         console.log(error);
