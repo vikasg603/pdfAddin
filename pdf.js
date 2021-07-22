@@ -21,6 +21,7 @@ const InsertImages = (base64Images) => {
         // Loop through the images and insert them into the document.
         for (const base64Image of base64Images) {
             body.insertInlinePictureFromBase64(base64Image, "End");
+            body.insertBreak("Page", "End");
             await context.sync();
         }
 
