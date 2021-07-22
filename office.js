@@ -7,6 +7,6 @@ Office.onReady((info) => {
 });
 Office.initialize = function () {
     window.alert = function (message) {
-        app.showNotification("Title For the Notification", message)
+        app.showNotification("Error", message)
     };
 };
