@@ -3,6 +3,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dis
 const file = document.getElementById("file");
 const UploadButton = document.getElementById("upload");
 const canvas = document.getElementById('the-canvas');
+const ErrorSpan = document.getElementById('error');
 const fileReader = new FileReader();
 
 fileReader.onload = function (e) {
@@ -32,20 +33,26 @@ async function readPDFFile(pdf_data) {
 }
 
 file.onchange = function (e) {
+
+    ErrorSpan.textContent = "";
+
     let PDFFile = file.files[0];
     if (!PDFFile) return;
 
     if (PDFFile.type !== "application/pdf") {
         file.value = "";
-        alert("Please select a PDF file.");
+        ErrorSpan.textContent = "Please select a PDF file.";
         return;
     }
 };
 
 UploadButton.onclick = function () {
+
+    ErrorSpan.textContent = "";
+
     let PDFFile = file.files[0];
     if (!PDFFile) {
-        alert("Please select a PDF file.");
+        ErrorSpan.textContent = "Please select a PDF file.";
     };
 
     fileReader.readAsArrayBuffer(PDFFile);

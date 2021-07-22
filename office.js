@@ -5,8 +5,3 @@ Office.onReady((info) => {
 
     }
 });
-Office.initialize = function () {
-    window.alert = function (message) {
-        app.showNotification("Error", message)
-    };
-};
