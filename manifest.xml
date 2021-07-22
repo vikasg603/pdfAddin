@@ -72,7 +72,7 @@
         <bt:Url id="Taskpane.Url" DefaultValue="https://sharp-dijkstra-169d9c.netlify.app/"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GetStarted.Title" DefaultValue="Get started with your sample add-in!"/>
+        <bt:String id="GetStarted.Title" DefaultValue="Get started with your PDF add-in!"/>
         <bt:String id="CommandsGroup.Label" DefaultValue="Commands Group"/>
         <bt:String id="TaskpaneButton.Label" DefaultValue="Open PDF"/>
       </bt:ShortStrings>

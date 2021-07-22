@@ -24,6 +24,13 @@ h2 {
     font-size: 1.5em;
 }
 
+#app-body {
+	display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px;
+}
+
 @-webkit-keyframes dotAnimation {
 	0% {
 		content: ".";
