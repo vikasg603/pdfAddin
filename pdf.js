@@ -27,7 +27,7 @@ const InsertImages = (base64Images) => {
         // Synchronize the document state by executing the queued commands,
         // and return a promise to indicate task completion.
         
-        delete AppBody.style.display;
+        AppBody.style.display = "flex";
         Loader.style.display = "none";
         console.log('Added base64 encoded text to the beginning of the document body.');
     })
@@ -42,7 +42,7 @@ const InsertImages = (base64Images) => {
 async function readPDFFile(pdf_data) {
 
     AppBody.style.display = "none";
-    delete Loader.style.display;
+    Loader.style.display = "flex";
 
     const pdf = await pdfjsLib.getDocument({ data: pdf_data }).promise;
 
