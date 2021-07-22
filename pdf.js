@@ -39,7 +39,7 @@ async function readPDFFile(pdf_data) {
     
             await page.render({ canvasContext, viewport }).promise;
             body.insertInlinePictureFromBase64(canvas.toDataURL('image/jpeg').replace(/^data:image\/\w+;base64,/, ""), "End");
-            body.insertBreak("Next", "End");
+            body.insertBreak("Next", "sectionNext");
             await context.sync();
 
         }
