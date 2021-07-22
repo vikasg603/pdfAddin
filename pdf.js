@@ -33,22 +33,20 @@ async function readPDFFile(pdf_data) {
         console.log("Pages", Pages);
 
         if(Pages) {
-            if(/^\d+-\d+$/.test(Pages)) {
-                let [StartPage, EndPage] = Pages.split("-");
-                StartPage = parseInt(StartPage);
-                EndPage = parseInt(EndPage);
-                if(StartPage < EndPage && EndPage <= page_count) {
-                    for(let i = StartPage; i <= EndPage; i++) {
-                        Page.push(i);
+
+            if(/^(((\d+)-\d+)|(\d+))(,(((\d+)-\d+)|(\d+)))*$/.test(Pages)) {
+                Pages.split(',').forEach(function (PageRange) {
+                    if(/^\d+-\d+$/.test(Pages)) {
+                        const [start, end] = PageRange.split('-').map(Number);
+                        if(start > end) {
+                            for(let i = start; i <= end; i++) {
+                                Page.push(i);
+                            }
+                        }
+                    } else {
+                        Page.push(Number(PageRange));
                     }
-                }
-            } else if(/^\d+(,\d+)+$/.test(Pages)) {
-                const PagesList = Pages.split(",");
-                for(let i = 0; i < PagesList.length; i++) {
-                    Page.push(parseInt(PagesList[i]));
-                }
-            } else {
-                Page.push(parseInt(Pages));
+                });
             }
             
             Page = Page.filter(item => item && item <= page_count)
