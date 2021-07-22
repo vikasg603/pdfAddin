@@ -56,7 +56,8 @@ const InsertImages = (base64Image) => {
 
         const body = context.document.body;
 
-        console.log(body);
+        console.log(body.insertFileFromBase64);
+        console.log(base64Image);
 
         body.insertFileFromBase64(base64Image, Word.InsertLocation.End);
 
