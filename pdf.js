@@ -36,7 +36,7 @@ async function readPDFFile(pdf_data) {
 
             if(/^(((\d+)-\d+)|(\d+))(,(((\d+)-\d+)|(\d+)))*$/.test(Pages)) {
                 Pages.split(',').forEach(function (PageRange) {
-                    if(/^\d+-\d+$/.test(Pages)) {
+                    if(/^\d+-\d+$/.test(PageRange)) {
                         const [start, end] = PageRange.split('-').map(Number);
                         if(start > end) {
                             for(let i = start; i <= end; i++) {
@@ -48,6 +48,8 @@ async function readPDFFile(pdf_data) {
                     }
                 });
             }
+
+            console.log(Page);
             
             Page = Page.filter(item => item && item <= page_count)
 
