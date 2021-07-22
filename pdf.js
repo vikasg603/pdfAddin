@@ -38,7 +38,7 @@ async function readPDFFile(pdf_data) {
                 Pages.split(',').forEach(function (PageRange) {
                     if(/^\d+-\d+$/.test(PageRange)) {
                         const [start, end] = PageRange.split('-').map(Number);
-                        if(start > end) {
+                        if(start < end) {
                             for(let i = start; i <= end; i++) {
                                 Page.push(i);
                             }
