@@ -54,8 +54,8 @@ async function readPDFFile(pdf_data) {
                 Page.push(1);
             }
 
-            Page.forEach(function(item) {
-                const page = await pdf.getPage(item);
+            for(let i = 0; i < Page.length; i++) {
+                const page = await pdf.getPage(Page[i]);
                 const viewport = page.getViewport({ scale: document.getElementById('Scale').textContent || 1.5 });
         
         
@@ -68,7 +68,7 @@ async function readPDFFile(pdf_data) {
                 body.insertInlinePictureFromBase64(canvas.toDataURL('image/jpeg').replace(/^data:image\/\w+;base64,/, ""), "End");
                 body.insertBreak("Page", "End");
                 await context.sync();
-            })
+            }
             
         } else {
             for (let i = 1; i <= page_count; i++) {
