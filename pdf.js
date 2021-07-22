@@ -12,34 +12,6 @@ fileReader.onload = function (e) {
     readPDFFile(new Uint8Array(e.target.result));
 };
 
-const InsertImages = (base64Images) => {
-    // Run a batch operation against the Word object model.
-    Word.run(async function (context) {
-
-        const body = context.document.body;
-
-        // Loop through the images and insert them into the document.
-        for (const base64Image of base64Images) {
-            body.insertInlinePictureFromBase64(base64Image, "End");
-            body.insertBreak("Page", "End");
-            await context.sync();
-        }
-
-        // Synchronize the document state by executing the queued commands,
-        // and return a promise to indicate task completion.
-        
-        AppBody.style.display = "flex";
-        Loader.style.display = "none";
-        console.log('Added base64 encoded text to the beginning of the document body.');
-    })
-        .catch(function (error) {
-            console.log('Error: ' + JSON.stringify(error));
-            if (error instanceof OfficeExtension.Error) {
-                console.log('Debug info: ' + JSON.stringify(error.debugInfo));
-            }
-        });
-}
-
 async function readPDFFile(pdf_data) {
 
     AppBody.style.display = "none";
@@ -48,22 +20,44 @@ async function readPDFFile(pdf_data) {
     const pdf = await pdfjsLib.getDocument({ data: pdf_data }).promise;
 
     const page_count = pdf.numPages;
-    const Images = [];
-    for (let i = 1; i <= page_count; i++) {
+    
+    // Run a batch operation against the Word object model.
+    await Word.run(async function (context) {
 
-        const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale: 1.5 });
+        const body = context.document.body;
+
+        for (let i = 1; i <= page_count; i++) {
+
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({ scale: 1.5 });
+    
+    
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+    
+    
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
+            body.insertInlinePictureFromBase64(canvas.toDataURL('image/jpeg').replace(/^data:image\/\w+;base64,/, ""), "Emd");
+            body.insertBreak("Page", "End");
+            await context.sync();
+
+        }
 
 
-        const context = canvas.getContext('2d');
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+        AppBody.style.display = "flex";
+        Loader.style.display = "none";
 
 
-        await page.render({ canvasContext: context, viewport: viewport }).promise
-        Images.push(canvas.toDataURL('image/jpeg').replace(/^data:image\/\w+;base64,/, ""));
-    }
-    InsertImages(Images);
+        console.log('Added base64 encoded text to the beginning of the document body.');
+
+    }).catch(function (error) {
+        console.log('Error: ' + JSON.stringify(error));
+        if (error instanceof OfficeExtension.Error) {
+            console.log('Debug info: ' + JSON.stringify(error.debugInfo));
+        }
+    });
+
     file.value = "";
 }
 
@@ -79,6 +73,7 @@ file.onchange = function (e) {
         ErrorSpan.textContent = "Please select a PDF file.";
         return;
     }
+
 };
 
 UploadButton.onclick = function () {
