@@ -124,6 +124,8 @@ file.onchange = function (e) {
 
 UploadButton.onclick = function () {
 
+    console.log("Clicked");
+
     ErrorSpan.textContent = "";
 
     let PDFFile = file.files[0];
