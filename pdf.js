@@ -1,6 +1,7 @@
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.8.335/build/pdf.worker.js';
 
 const file = document.getElementById("file");
+const UploadButton = document.getElementById("upload");
 const canvas = document.getElementById('the-canvas');
 const fileReader = new FileReader();
 
@@ -27,6 +28,7 @@ async function readPDFFile(pdf_data) {
         await page.render({ canvasContext: context, viewport: viewport }).promise
         InsertImages(canvas.toDataURL('image/jpeg'));
     }
+    file.value = "";
 }
 
 file.onchange = function (e) {
@@ -38,6 +40,13 @@ file.onchange = function (e) {
         alert("Please select a PDF file.");
         return;
     }
+};
+
+UploadButton.onclick = function () {
+    let PDFFile = file.files[0];
+    if (!PDFFile) {
+        alert("Please select a PDF file.");
+    };
 
     fileReader.readAsArrayBuffer(PDFFile);
 };
