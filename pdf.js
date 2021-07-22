@@ -29,6 +29,9 @@ async function readPDFFile(pdf_data) {
         const Pages = document.getElementById('Pages').textContent;
 
         let Page = [];
+
+        console.log("Pages", Pages);
+
         if(Pages) {
             if(/^\d+-\d+$/.test(Pages)) {
                 let [StartPage, EndPage] = Pages.split("-");
@@ -53,6 +56,8 @@ async function readPDFFile(pdf_data) {
             if(Page.length === 0) {
                 Page.push(1);
             }
+
+            console.log("Page Array", Page);
 
             for(let i = 0; i < Page.length; i++) {
                 const page = await pdf.getPage(Page[i]);
@@ -123,7 +128,7 @@ file.onchange = function (e) {
 };
 
 UploadButton.onclick = function () {
-    
+
     ErrorSpan.textContent = "";
 
     let PDFFile = file.files[0];
