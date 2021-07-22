@@ -56,6 +56,10 @@ const InsertImages = (base64Image) => {
 
         const body = context.document.body;
 
+        base64Image = base64Image.replace(/^data:image\/\w+;base64,/, "");
+
+        console.log(base64Image);
+
         body.insertInlinePictureFromBase64(base64Image, "After");
 
         // Synchronize the document state by executing the queued commands,
