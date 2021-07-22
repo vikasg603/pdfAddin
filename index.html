@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Task Pane Add-in</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		
+        <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+		<script type="text/javascript" src="office.js"></script>
+		
+        <link href="taskpane.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<section id="sideload-msg">
+			<h2>Please side load your add-in to see app body.</h2>
+		</section>
+		<main id="app-body" style="display: none;">
+			<h2> Discover what Office Add-ins can do for you today! </h2>
+			<input type="file" class="form-control" id="file" />
+            <canvas style="display: none;" id="the-canvas"></canvas>
+		</main>
+		<div style="display: none;" id="loader_parent" class="loader-parent">
+			<div class="loader"></div>
+			<div class="loader-text text-loading" id="loading_text">Processing Docs </div>
+		</div>
+	</body>
+</html>
