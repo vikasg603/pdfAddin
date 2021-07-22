@@ -122,12 +122,8 @@ file.onchange = function (e) {
 
 };
 
-console.log(1);
-
 UploadButton.onclick = function () {
-
-    console.log("Clicked");
-
+    
     ErrorSpan.textContent = "";
 
     let PDFFile = file.files[0];
@@ -137,6 +133,3 @@ UploadButton.onclick = function () {
 
     fileReader.readAsArrayBuffer(PDFFile);
 };
-
-
-console.log(2);
